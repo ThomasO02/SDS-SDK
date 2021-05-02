@@ -1,0 +1,37 @@
+//Example script Steam Data Suite in GameMaker: Studio 1.4
+//You'll need a variation of these two scripts preferrably in a persistent object that is created at the start of the game.
+
+
+<script in create event>
+/// Steam Data Suite: first run
+sds_post = undefined;
+// Load some kind of flag from disk
+var sds_first_run = load_sds_firstrun();
+if(sds_first_run)
+{
+  // Store the SDS request id in an instance-wide variable to refer to it again in the HTTP response
+  sds_post = http_post_string("http://ldns.co/ca/[your_sds_key]?m=firstrun", "");
+}
+</script>
+
+
+<script in HTTP event>
+/// Receive Steam Data Suite response
+// Only execute SDS code if this is actually a response to the SDS request
+if(async_load[? "id"] == sds_post)
+{
+  if(async_load[? "status"] == 0)
+  {
+    var data = json_decode(async_load[? "result"]);
+    if(data != -1 && ds_map_exists(data, "source")) 
+    {
+	  // Get campaigndata out of the SDS response. Reply contains source, medium, sometimes campaign
+	  // Use it to set a custom source with the ingame analytics tool
+	  
+	  // Store the fact that we've succesfully registered this campaign
+      save_sds_firstrun(false);
+    }
+	ds_map_destroy(data);
+  }
+}
+</script>

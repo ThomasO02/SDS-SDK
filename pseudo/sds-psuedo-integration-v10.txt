@@ -1,0 +1,17 @@
+# Import
+import library http #Import a library that enables http posts
+
+# Local storage/save file initially
+var attribution_done = False
+
+# Central script
+class SendAttribution:
+	try:
+		response = http.send_http_post( 'http://ldns.co/ca/dd6dc280027c43b3a503b893db495d26' )
+		if response.content.length > 0:
+			attribution_done = True
+			# Optional: Feed your in-game analytics tool the campaign values of the user (response)
+
+# On start
+if attribution_done == False:
+	SendAttribution()

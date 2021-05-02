@@ -1,0 +1,107 @@
+<html>
+<head>
+
+
+	<!-- Base functions -->
+	<script>
+	var s,
+	steamDataSuite = {
+
+
+		/* PERSISTENT STORAGE */
+		// This is for the purpose of example. In an actual situation the variable would be read and written to a file or database.
+		store : {
+			'firstrun':false, // Starts out with firstrun
+		},
+		storeRead : function() {
+			return this.store
+		},
+		storeWrite : function( events ) {
+			store = events
+		},
+
+
+		/* SETTINGS */
+		settings: {
+			key : '94c848cea6d943ad9c195548cfa7a432', // The key can be retrieved in the backend
+			url : 'http://ldns.co/ca/', // URL for the calls, should remain as is
+	    },
+
+
+	    init: function() {
+	      	s = this.settings;
+	      	this.sendEvents();
+	    },
+
+		sendEvents: function( ) {
+
+			var events = this.storeRead()
+			for ( var e in events ) {
+				if ( !events[e] ){
+					fetch( s.url + s.key + '?m=' + e  )
+					  	.then( function( response ) {
+							if ( response.status == 400 ) {
+								console.log( 'Steam Data Suite Error: Milestone does not exist. Milestone: ' + e );
+								return;
+							}else if ( response.status !== 200 ) {
+								console.log( 'Steam Data Suite Error: ' + response.status );
+								return;
+					  		}else{
+						  		response.json().then( function( data ) {
+									events[e] = true // Mark event as done
+									if (e == 'firstrun'){
+										postAnalytics(  data.medium, data.source, data.campaign, data.content )
+									}
+						  		});
+							}
+						})
+					  	.catch( function( err ) {
+							console.log( 'Steam Data Suite Error: ' + err );
+					  	});
+				}
+			}
+			this.storeWrite( events )
+		},
+
+		addEvent: function( e ) {
+			var events = this.storeRead()
+			events[e] = false //New events are added as false.
+			this.storeWrite( events )
+			this.sendEvents()
+		},
+	}
+
+
+
+	function postAnalytics( medium, source, campaign, content ) {
+		// Use the campaign variables as you wish, for example to build a call towards the analytics system of the game
+		console.log( medium, source, campaign, content );
+	}
+
+	</script>
+
+
+	<!-- Function calls -->
+	<script>
+
+		/* Execute each game start */
+		steamDataSuite.init();
+
+		/* Execute when a custom event/milestone should be added */
+		setTimeout(function (){
+			steamDataSuite.addEvent( 'level10' ) // Takes a milestone name as a string. Only milestones made available in the SDS console can be used
+		},3000) 
+
+
+
+	</script>
+
+
+
+
+
+
+</head>
+<body>
+</body>
+</html>
