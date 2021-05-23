@@ -19,7 +19,7 @@ package tools
 		static private var AttrEvents:Object;
 		
 		//url to send data to
-		static private var url:String; //http://ldns.co/ca/[key]
+		static private var url:String; //http://steam.gs/ca/[key]
 		
 		//variables for saving (complete directory = basePath + subPath + saveName)
 		static private var basePath:File = File.cacheDirectory; //e.g: C:\Users\Gebruiker\AppData\Local\Temp (change var depending on coding language and preference)

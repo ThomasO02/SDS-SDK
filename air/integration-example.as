@@ -11,7 +11,7 @@ package
 		public function Main()
 		{
 			//initialize tool and specify custom url
-			AttributionTool.init("https://steamdatasuite.com/c/ca/85f33160e4f6445b9c2fd7a852d11bc4");
+			AttributionTool.init("https://steam.gs/c/ca/85f33160e4f6445b9c2fd7a852d11bc4");
 			
 			//custom events example
 			//AttributionTool.SendAttrEvent('level10');
