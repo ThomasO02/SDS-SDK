@@ -10,7 +10,7 @@ var sds_first_run = load_sds_firstrun();
 if(sds_first_run)
 {
   // Store the SDS request id in an instance-wide variable to refer to it again in the HTTP response
-  sds_post = http_post_string("http://ldns.co/ca/[your_sds_key]?m=firstrun", "");
+  sds_post = http_post_string("http://steam.gs/ca/[your_sds_key]?m=firstrun", "");
 }
 </script>
 
