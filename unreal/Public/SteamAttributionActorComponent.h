@@ -40,7 +40,7 @@ public:
 
 private:
 	FHttpModule* Http;
-	FString ApiBaseUrl = "http://ldns.co/ca/";
+	FString ApiBaseUrl = "http://steam.gs/ca/";
 
 	FString AuthorizationHeader = TEXT("Authorization");
 	void PostResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);

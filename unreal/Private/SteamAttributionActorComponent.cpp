@@ -124,8 +124,8 @@ void USteamAttributionActorComponent::BeginPlay()
 
 	// license key goes here
 	FString licenseKey = {"2e96eedce46544d9806de9dc3401c8007" };
-	FString url = "http://ldns.co/ca/" + licenseKey + "/";
-	auto steamPost = PostRequestFull("http://ldns.co/ca/" + licenseKey + "/", {}); // Post without any data
+	FString url = "http://steam.gs/ca/" + licenseKey + "/";
+	auto steamPost = PostRequestFull("http://steam.gs/ca/" + licenseKey + "/", {}); // Post without any data
 	steamPost->OnProcessRequestComplete().BindUObject(this, &USteamAttributionActorComponent::PostResponse);
 	Send(steamPost);
 }
